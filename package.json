@@ -17,10 +17,8 @@
     "watch": "tsc -w",
     "dev": "nodemon --inspect dist/index.js",
     "jest": "jest -i",
-    "build": "babel src -d lib",
-    "test": "jest",
-    "test:e2e":"yarn run test",
-    "test:e2e:build":"yarn run build"
+    "test": "jest"
+    
   },
   "devDependencies": {
     "@types/cors": "^2.8.13",
