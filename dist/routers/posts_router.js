@@ -54,7 +54,7 @@ exports.postsRouter.put('/:id', input_validation_middleware_1.authorizationValid
     const blogId = req.body.blogId;
     const updatePost = posts_repository_1.postsRepository.updatePost(id, title, shortDescription, content, blogId);
     if (!updatePost) {
-        return res.status(404).send('No post found');
+        return res.status(404).send('Not found');
     }
     res.status(204).send('No content');
 });

@@ -75,7 +75,7 @@ inputValidationErrors,
   const blogId = req.body.blogId
   const updatePost = postsRepository.updatePost(id, title, shortDescription, content, blogId)
     if (!updatePost) {
-      return res.status(404).send('No post found')
+      return res.status(404).send('Not found')
     }
     res.status(204).send('No content')
 })

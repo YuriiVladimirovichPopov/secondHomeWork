@@ -76,7 +76,7 @@ inputValidationErrors,
 (req: Request, res: Response) => {
   const foundBlog = blogsRepository.deleteBlog(req.params.id);
   if (!foundBlog) {
-    return res.status(404).send('Blog not found')
+    return res.status(404).send('Not found')
   }
 res.status(204).send('No Content')
 })

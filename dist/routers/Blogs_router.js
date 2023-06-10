@@ -55,7 +55,7 @@ exports.blogsRouter.put('/:id', input_validation_middleware_1.authorizationValid
 exports.blogsRouter.delete('/:id', input_validation_middleware_1.authorizationValidation, input_validation_middleware_1.inputValidationErrors, (req, res) => {
     const foundBlog = blogs_repository_1.blogsRepository.deleteBlog(req.params.id);
     if (!foundBlog) {
-        return res.status(404).send('Blog not found');
+        return res.status(404).send('Not found');
     }
     res.status(204).send('No Content');
 });

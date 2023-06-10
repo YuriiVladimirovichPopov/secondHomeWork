@@ -8,5 +8,5 @@ exports.testingRouter = (0, express_1.Router)();
 exports.testingRouter.delete('/all-data', (req, res) => {
     blogs_repository_1.blogsRepository.deleteAllBlogs();
     posts_repository_1.postsRepository.deleteAllPosts();
-    res.status(204);
+    res.status(204).send('All data is deleted');
 });

@@ -60,8 +60,8 @@ exports.inputPostsValidation = {
     })
 };
 const inputValidationErrors = (req, res, next) => {
-    const errorFormat = ({ msg, params }) => {
-        return { message: msg, field: params };
+    const errorFormat = (error) => {
+        return { message: error.msg, field: error.msg };
     };
     const errors = (0, express_validator_1.validationResult)(req).formatWith(errorFormat);
     if (!errors.isEmpty()) {

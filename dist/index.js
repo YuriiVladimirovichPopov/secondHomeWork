@@ -15,7 +15,7 @@ const corsMiddleware = (0, cors_1.default)();
 exports.app.use(corsMiddleware);
 const jsonBodyMiddleware = body_parser_1.default.json();
 exports.app.use(jsonBodyMiddleware);
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3002;
 exports.app.use('/blogs', blogs_router_1.blogsRouter);
 exports.app.use('/posts', posts_router_1.postsRouter);
 exports.app.use('/testing', testing_router_1.testingRouter);

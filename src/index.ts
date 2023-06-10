@@ -11,7 +11,7 @@ const corsMiddleware = cors();
 app.use(corsMiddleware)
 const jsonBodyMiddleware = bodyParser.json()
 app.use(jsonBodyMiddleware)
-const port = process.env.PORT || 3001
+const port = process.env.PORT || 3002
 
 
 export type blogsType = {
