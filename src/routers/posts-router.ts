@@ -1,36 +1,12 @@
 import {Request, Response, Router } from "express";
-import { DB } from "..";
 import {postsRepository} from "../repositories/posts-repository";
 import {sendStatus} from "./send-status";
 import { authorizationValidation, 
           inputPostsValidation,
           inputValidationErrors} from "../middlewares/input-validation-middleware";
-import { send } from "process";
+import { db } from "../db/db";
 export const postsRouter = Router({})
 
-
-const db: DB = {
-  posts: [
-    {
-        "id": "Leva",
-        "title": "First steps",
-        "shortDescription": "string",
-        "content": "string",
-        "blogId": "string",
-        "blogName": "string"
-    },
-
-    {
-        "id": "Platon",
-        "title": "First words",
-        "shortDescription": "string",
-        "content": "string",
-        "blogId": "string",
-        "blogName": "string"
-    }
-],
-    blogs: []
-}
 postsRouter.get('/', (_req: Request, res: Response) => {
     res.status(sendStatus.OK_200).send(db.posts)
   })

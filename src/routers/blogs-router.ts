@@ -1,32 +1,14 @@
 import {Request, Response, Router } from "express";
-import { DB } from "..";
-import {blogsRepository} from "../repositories/blogs-repository";
+import { blogsRepository, blogsArrayType } from '../repositories/blogs-repository';
 import { sendStatus } from "./send-status";
 import { authorizationValidation,
           inputBlogsValidation,
           inputValidationErrors } from "../middlewares/input-validation-middleware";
+import { db } from "../db/db";
 export const blogsRouter = Router({})
 
-const db: DB = {
-  blogs: [
-    {
-      "id": "0",
-      "name": "string",
-      "description": "string",
-      "websiteUrl": "string"
-    },
-
-    {
-      "id": "1",
-      "name": "string",
-      "description": "string",
-      "websiteUrl": "string"
-    }
-  ],
-  posts: []
-}
-
-blogsRouter.get('/', (_req: Request, res: Response) => {
+blogsRouter.get('/', (req: Request, res: Response) => {
+    console.log(req.params);
     res.status(sendStatus.OK_200).send(db.blogs)
   })
   
@@ -41,7 +23,7 @@ const name = req.body.name
 const description = req.body.description
 const websiteUrl = req.body.websiteUrl
 const newBlogCreate = blogsRepository.createBlog(name, description, websiteUrl)
-  res.sendStatus(sendStatus.CREATED_201).send(newBlogCreate)
+  res.sendStatus(sendStatus.CREATED_201).send(db.blogs)
 })
   
 blogsRouter.get('/:id', (req: Request, res: Response) => {
@@ -77,7 +59,7 @@ inputValidationErrors,
 (req: Request, res: Response) => {
   const foundBlog = blogsRepository.deleteBlog(req.params.id);
   if (!foundBlog) {
-    return res.status(404).send('Not found')
+    return res.sendStatus(sendStatus.NOT_FOUND_404)
   }
-res.status(204).send('No Content')
+res.sendStatus(sendStatus.NO_CONTENT_204)
 })
