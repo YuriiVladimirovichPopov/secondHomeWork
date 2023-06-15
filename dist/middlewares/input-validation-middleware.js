@@ -3,10 +3,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.inputValidationErrors = exports.inputPostsValidation = exports.inputBlogsValidation = exports.authorizationValidation = void 0;
 const express_validator_1 = require("express-validator");
 const blogs_repository_1 = require("../repositories/blogs-repository");
-const users_repository_1 = require("../repositories/users_repository");
+const users_repository_1 = require("../repositories/users-repository");
+const send_status_1 = require("../routers/send-status");
+/*export const authMiddleware = (req: Express.Request, res: Express.Response, next: NextFunction) => {
+    next()
+}
+*/
 exports.authorizationValidation = (0, express_validator_1.header)('authorization').custom((value) => {
     if (!users_repository_1.usersRepository.find(user => user.loginPassword === value)) {
-        throw new Error('401');
+        throw new Error('UNAUTHORIZED_401');
     }
     return true;
 });
@@ -65,10 +70,10 @@ const inputValidationErrors = (req, res, next) => {
     };
     const errors = (0, express_validator_1.validationResult)(req).formatWith(errorFormat);
     if (!errors.isEmpty()) {
-        if (errors.array().find((err) => err.message === '401')) {
-            return res.status(401).send('Unauthorized');
+        if (errors.array().find((err) => err.message === 'UNAUTHORIZED_401')) {
+            return res.sendStatus(send_status_1.sendStatus.UNAUTHORIZED_401);
         }
-        res.status(400).send('Bad Request').json({ errorMessages: errors.array() });
+        res.status(send_status_1.sendStatus.BAD_REQUEST_400).json({ errorMessages: errors.array() });
         return;
     }
     else {

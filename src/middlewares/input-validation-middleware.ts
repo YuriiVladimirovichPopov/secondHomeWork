@@ -1,13 +1,18 @@
 import {NextFunction, Response, Request } from "express";
 import {header, body, validationResult, ValidationError} from "express-validator";
 import { blogsRepository } from "../repositories/blogs-repository";
-import { usersRepository } from "../repositories/users_repository";
-import { isParameter } from "typescript";
+import { usersRepository } from "../repositories/users-repository";
+import { sendStatus } from "../routers/send-status";
 
+
+/*export const authMiddleware = (req: Express.Request, res: Express.Response, next: NextFunction) => {
+    next()
+}
+*/
 
 export const authorizationValidation = header('authorization').custom((value) => {
     if (!usersRepository.find(user => user.loginPassword === value)) {
-        throw new Error('401')
+        throw new Error('UNAUTHORIZED_401');
     }
     return true
 })
@@ -69,10 +74,10 @@ export const inputValidationErrors = (req: Request, res: Response, next: NextFun
     }
     const errors = validationResult(req).formatWith(errorFormat)
     if (!errors.isEmpty()) {
-        if (errors.array().find((err: { message: string; }) => err.message === '401')) {
-            return res.status(401).send('Unauthorized');
+        if (errors.array().find((err: { message: string; }) => err.message === 'UNAUTHORIZED_401')) {
+            return res.sendStatus(sendStatus.UNAUTHORIZED_401);
         }
-        res.status(400).send('Bad Request').json({ errorMessages: errors.array()})
+        res.status(sendStatus.BAD_REQUEST_400).json({ errorMessages: errors.array()})
         return 
     } else {
         next()

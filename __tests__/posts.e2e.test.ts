@@ -1,5 +1,5 @@
 import request from "supertest";
-import {app, postsRouter,} from "../src"
+import {app,} from "../src"
 
 describe("Router", () => {
     beforeAll(async() => {

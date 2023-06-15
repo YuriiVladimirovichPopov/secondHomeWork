@@ -13,7 +13,7 @@ export const blogsRepository = {
         return blogsArray; 
     },
 
-    findBlogById(id: string): blogsType | undefined {
+    findBlogById(id: string): blogsType {
         const foundBlogById = blogsArray.find(b => b.id === id) 
         return foundBlogById!
     },

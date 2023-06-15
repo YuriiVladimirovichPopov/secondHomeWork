@@ -1,15 +1,14 @@
-import  express, {Request, Response} from 'express'
+import  express from 'express'
 import cors from 'cors'
 import bodyParser from 'body-parser';
-import { blogsRouter } from './routers/blogs_router';
-import { postsRouter } from './routers/posts_router';
-import {testingRouter } from './routers/testing_router';
-import { body } from 'express-validator';
+import { blogsRouter } from './routers/blogs-router';
+import { postsRouter } from './routers/posts-router';
+import {testingRouter } from './routers/testing-router';
 
 export const app = express()
 const corsMiddleware = cors();
 app.use(corsMiddleware)
-const jsonBodyMiddleware = bodyParser.json()
+const jsonBodyMiddleware = bodyParser.json() 
 app.use(jsonBodyMiddleware)
 const port = process.env.PORT || 3002
 
@@ -40,14 +39,8 @@ app.use('/posts', postsRouter)
 
 app.use('/testing', testingRouter)
 
-/*app.delete('/testing/all-data', (_req: Request, res: Response) => {
-  res.send('all data is deleted').status(204)
-})
-*/
-
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`Listen ${port}`)
 })
 
-//export { postsRouter };
- 
+
