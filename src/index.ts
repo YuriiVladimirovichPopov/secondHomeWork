@@ -1,6 +1,5 @@
 import  express from 'express'
 import cors from 'cors'
-import bodyParser from 'body-parser';
 import { blogsRouter } from './routers/blogs-router';
 import { postsRouter } from './routers/posts-router';
 import {testingRouter } from './routers/testing-router';
@@ -8,7 +7,7 @@ import {testingRouter } from './routers/testing-router';
 export const app = express()
 const corsMiddleware = cors();
 app.use(corsMiddleware)
-const jsonBodyMiddleware = bodyParser.json() 
+const jsonBodyMiddleware = express.json()
 app.use(jsonBodyMiddleware)
 const port = process.env.PORT || 3002
 
@@ -21,7 +20,7 @@ export type blogsType = {
 }
 
 export type postsType = {
-  id: string,
+    id: string,
     title: string,
     shortDescription: string,
     content: string,

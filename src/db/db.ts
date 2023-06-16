@@ -23,7 +23,7 @@ export const db: DB = {
     title: "First steps",
     shortDescription: "string",
     content: "string",
-    blogId: "string",
+    blogId: "0",
     blogName: "string"
 },
 
@@ -32,7 +32,7 @@ export const db: DB = {
     title: "First words",
     shortDescription: "string",
     content: "string",
-    blogId: "string",
+    blogId: "1",
     blogName: "string"
 }]
 };

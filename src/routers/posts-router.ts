@@ -12,12 +12,12 @@ postsRouter.get('/', (_req: Request, res: Response) => {
   })
   
 postsRouter.post('/', 
-authorizationValidation,
-inputPostsValidation.title,
-inputPostsValidation.shortDescription,
-inputPostsValidation.content,
-inputPostsValidation.blogId,
-inputValidationErrors,
+  authorizationValidation,
+  inputPostsValidation.title,
+  inputPostsValidation.shortDescription,
+  inputPostsValidation.content,
+  inputPostsValidation.blogId,
+  inputValidationErrors,
 (req: Request, res: Response) => {
   const title = req.body.title;
   const shortDescription = req.body.shortDescription;
@@ -32,9 +32,9 @@ inputValidationErrors,
 postsRouter.get('/:id', (req: Request, res: Response) => {
     const foundPost = postsRepository.findPostById(req.params.id)
     if (foundPost) {
-      res.status(sendStatus.OK_200)
+      res.status(sendStatus.OK_200).send(foundPost)
     } else {
-      res.status(sendStatus.NOT_FOUND_404)
+      res.sendStatus(sendStatus.NOT_FOUND_404)
   }
   })
   
@@ -46,16 +46,16 @@ inputPostsValidation.content,
 inputPostsValidation.blogId,
 inputValidationErrors,
 (req: Request, res: Response) => {
-  const id = req.body.id;
+  const id = req.params.id;
   const title = req.body.title;
   const shortDescription = req.body.shortDescription;
   const content = req.body.content
   const blogId = req.body.blogId
   const updatePost = postsRepository.updatePost(id, title, shortDescription, content, blogId)
     if (!updatePost) {
-      return res.status(sendStatus.NOT_FOUND_404)
+      return res.sendStatus(sendStatus.NOT_FOUND_404)
     }
-    res.status(sendStatus.NO_CONTENT_204)
+    res.sendStatus(sendStatus.NO_CONTENT_204)
 })
   
 postsRouter.delete('/:id', 
@@ -64,7 +64,7 @@ inputValidationErrors,
 (req: Request, res: Response) => {
 const foundPost = postsRepository.deletePost(req.params.id)
 if (!foundPost) {
-  return res.status(sendStatus.NOT_FOUND_404);
+  return res.sendStatus(sendStatus.NOT_FOUND_404);
   }
-res.status(sendStatus.NO_CONTENT_204)
+res.sendStatus(sendStatus.NO_CONTENT_204)
 })

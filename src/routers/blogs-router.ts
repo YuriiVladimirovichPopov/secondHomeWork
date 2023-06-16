@@ -1,5 +1,5 @@
 import {Request, Response, Router } from "express";
-import { blogsRepository, blogsArrayType } from '../repositories/blogs-repository';
+import { blogsRepository, } from '../repositories/blogs-repository';
 import { sendStatus } from "./send-status";
 import { authorizationValidation,
           inputBlogsValidation,
@@ -14,16 +14,16 @@ blogsRouter.get('/', (req: Request, res: Response) => {
   
 blogsRouter.post('/',
   authorizationValidation,
-inputBlogsValidation.name,
-inputBlogsValidation.description,
-inputBlogsValidation.websiteURL,
-inputValidationErrors, 
+  inputBlogsValidation.name,
+  inputBlogsValidation.description,
+  inputBlogsValidation.websiteURL,
+  inputValidationErrors, 
 (req: Request, res: Response) => {
-const name = req.body.name
-const description = req.body.description
-const websiteUrl = req.body.websiteUrl
-const newBlogCreate = blogsRepository.createBlog(name, description, websiteUrl)
-  res.sendStatus(sendStatus.CREATED_201).send(db.blogs)
+  const name = req.body.name
+  const description = req.body.description
+  const websiteUrl = req.body.websiteUrl
+  const newBlog = blogsRepository.createBlog(name, description, websiteUrl)
+  res.sendStatus(sendStatus.CREATED_201).send(newBlog)
 })
   
 blogsRouter.get('/:id', (req: Request, res: Response) => {
@@ -50,16 +50,16 @@ blogsRouter.put('/:id',
     if (!updateBlog) {
       return res.sendStatus(sendStatus.NOT_FOUND_404)
     }
-    res.status(sendStatus.NO_CONTENT_204).send(updateBlog)
+    res.sendStatus(sendStatus.NO_CONTENT_204)
 })
   
 blogsRouter.delete('/:id', 
-authorizationValidation,
-inputValidationErrors, 
+  authorizationValidation,
+  inputValidationErrors, 
 (req: Request, res: Response) => {
   const foundBlog = blogsRepository.deleteBlog(req.params.id);
   if (!foundBlog) {
     return res.sendStatus(sendStatus.NOT_FOUND_404)
   }
-res.sendStatus(sendStatus.NO_CONTENT_204)
+  res.sendStatus(sendStatus.NO_CONTENT_204)
 })

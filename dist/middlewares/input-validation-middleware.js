@@ -5,12 +5,9 @@ const express_validator_1 = require("express-validator");
 const blogs_repository_1 = require("../repositories/blogs-repository");
 const users_repository_1 = require("../repositories/users-repository");
 const send_status_1 = require("../routers/send-status");
-/*export const authMiddleware = (req: Express.Request, res: Express.Response, next: NextFunction) => {
-    next()
-}
-*/
 exports.authorizationValidation = (0, express_validator_1.header)('authorization').custom((value) => {
-    if (!users_repository_1.usersRepository.find(user => user.loginPassword === value)) {
+    const user = users_repository_1.usersRepository.find(user => user.loginPassword === value);
+    if (!user) {
         throw new Error('UNAUTHORIZED_401');
     }
     return true;
@@ -65,8 +62,8 @@ exports.inputPostsValidation = {
     })
 };
 const inputValidationErrors = (req, res, next) => {
-    const errorFormat = (error) => {
-        return { message: error.msg, field: error.msg };
+    const errorFormat = ({ msg, type }) => {
+        return { message: msg, field: type };
     };
     const errors = (0, express_validator_1.validationResult)(req).formatWith(errorFormat);
     if (!errors.isEmpty()) {

@@ -7,10 +7,9 @@ export type blogsType = {
     websiteUrl: string, 
   }
 
-export type blogsArrayType = Array<blogsType>
 
 export const blogsRepository = {
-    findAllBlogs(): blogsArrayType { 
+    findAllBlogs(): blogsType[] { 
         return db.blogs 
     },
 
@@ -19,7 +18,7 @@ export const blogsRepository = {
         return foundBlogById
     },
     
-    createBlog(name: string, description: string, website: string) {
+    createBlog(name: string, description: string, website: string): blogsType {
         const newBlog: blogsType = {
             id: (db.blogs.length + 1).toString(),
             name: name,
@@ -30,7 +29,7 @@ export const blogsRepository = {
         return newBlog
     },
 
-    updateBlog(id: string, name: string, description: string, website: string) {
+    updateBlog(id: string, name: string, description: string, website: string): boolean {
         const foundBlogById = db.blogs.find(b => b.id === id)
         if (foundBlogById) {
             foundBlogById.name = name
@@ -41,11 +40,11 @@ export const blogsRepository = {
         return false
     },
 
-    deleteBlog(id: string) {
+    deleteBlog(id: string): boolean {
         const foundBlogById = db.blogs.find(b => b.id === id)
         if (foundBlogById) {
             db.blogs = db.blogs.filter(b => b !== foundBlogById);
-     return true
+            return true
         } 
         return false
     },

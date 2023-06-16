@@ -1,27 +1,27 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.blogsRepository = void 0;
-let blogsArray = [];
+const db_1 = require("../db/db");
 exports.blogsRepository = {
     findAllBlogs() {
-        return blogsArray;
+        return db_1.db.blogs;
     },
     findBlogById(id) {
-        const foundBlogById = blogsArray.find(b => b.id === id);
+        const foundBlogById = db_1.db.blogs.find(b => b.id === id);
         return foundBlogById;
     },
     createBlog(name, description, website) {
         const newBlog = {
-            id: (blogsArray.length + 1).toString(),
+            id: (db_1.db.blogs.length + 1).toString(),
             name: name,
             description: description,
             websiteUrl: website
         };
-        blogsArray.push(newBlog);
+        db_1.db.blogs.push(newBlog);
         return newBlog;
     },
     updateBlog(id, name, description, website) {
-        const foundBlogById = blogsArray.find(b => b.id === id);
+        const foundBlogById = db_1.db.blogs.find(b => b.id === id);
         if (foundBlogById) {
             foundBlogById.name = name;
             foundBlogById.description = description;
@@ -31,14 +31,14 @@ exports.blogsRepository = {
         return false;
     },
     deleteBlog(id) {
-        const foundBlogById = blogsArray.find(b => b.id === id);
+        const foundBlogById = db_1.db.blogs.find(b => b.id === id);
         if (foundBlogById) {
-            blogsArray = blogsArray.filter(b => b !== foundBlogById);
+            db_1.db.blogs = db_1.db.blogs.filter(b => b !== foundBlogById);
             return true;
         }
         return false;
     },
     deleteAllBlogs() {
-        blogsArray.splice(0, blogsArray.length);
+        db_1.db.blogs.splice(0, db_1.db.blogs.length);
     }
 };

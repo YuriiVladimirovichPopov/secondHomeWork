@@ -5,13 +5,10 @@ import { usersRepository } from "../repositories/users-repository";
 import { sendStatus } from "../routers/send-status";
 
 
-/*export const authMiddleware = (req: Express.Request, res: Express.Response, next: NextFunction) => {
-    next()
-}
-*/
-
 export const authorizationValidation = header('authorization').custom((value) => {
-    if (!usersRepository.find(user => user.loginPassword === value)) {
+    const user = usersRepository.find(user => user.loginPassword === value)
+    
+    if (!user) {
         throw new Error('UNAUTHORIZED_401');
     }
     return true
@@ -69,8 +66,8 @@ blogId: body('blogID')
     }
 
 export const inputValidationErrors = (req: Request, res: Response, next: NextFunction) => {
-    const errorFormat = (error : ValidationError) => {
-        return {message: error.msg, field: error.msg}
+    const errorFormat = ({msg, type } : ValidationError) => {
+        return {message: msg, field: type}
     }
     const errors = validationResult(req).formatWith(errorFormat)
     if (!errors.isEmpty()) {
