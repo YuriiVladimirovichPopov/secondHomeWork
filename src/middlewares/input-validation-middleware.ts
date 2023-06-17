@@ -79,7 +79,7 @@ export const inputValidationErrors = (req: Request, res: Response, next: NextFun
         const errorsMessages = errors.array({onlyFirstError: true})
         //console.log(errorsMessages);
         
-        res.status(sendStatus.BAD_REQUEST_400).json({ errorMessages: errors.array})
+        res.status(sendStatus.BAD_REQUEST_400).json({ errorsMessages: errors.array})
         return 
     } else {
         next()
