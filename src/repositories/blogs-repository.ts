@@ -30,7 +30,7 @@ export const blogsRepository = {
     },
 
     updateBlog(id: string, name: string, description: string, website: string): boolean {
-        const foundBlogById = db.blogs.find(b => b.id === id)
+        const foundBlogById = db.blogs.find(b => b.id === id);
         if (foundBlogById) {
             foundBlogById.name = name
             foundBlogById.description = description
