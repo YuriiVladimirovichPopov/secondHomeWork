@@ -5,6 +5,7 @@ const express_validator_1 = require("express-validator");
 const blogs_repository_1 = require("../repositories/blogs-repository");
 const users_repository_1 = require("../repositories/users-repository");
 const send_status_1 = require("../routers/send-status");
+const node_console_1 = require("node:console");
 exports.authorizationValidation = (0, express_validator_1.header)('authorization').custom((value) => {
     const user = users_repository_1.usersRepository.find(user => user.loginPassword === value);
     if (!user) {
@@ -63,7 +64,7 @@ exports.inputPostsValidation = {
 };
 const inputValidationErrors = (req, res, next) => {
     const errorFormat = ({ msg, type }) => {
-        return { message: msg, field: type };
+        return { message: msg, field: type, error: node_console_1.error };
     };
     const errors = (0, express_validator_1.validationResult)(req).formatWith(errorFormat);
     if (!errors.isEmpty()) {
