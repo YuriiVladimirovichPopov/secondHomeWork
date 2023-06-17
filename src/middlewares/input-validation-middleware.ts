@@ -66,8 +66,8 @@ blogId: body('blogID')
         })
     }
 
-export const inputValidationErrors = (validations: Array<ValidationChain>)=> async (req: Request, res: Response, next: NextFunction) => {
-    await Promise.all(validations.map(validation => validation.run(req)));
+export const inputValidationErrors = (req: Request, res: Response, next: NextFunction) => {
+    
     const errorFormat = ({msg} : ValidationError ) => {
         return {message: msg}
     }
