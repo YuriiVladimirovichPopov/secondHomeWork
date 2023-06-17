@@ -3,8 +3,6 @@ import {header, body, validationResult, ValidationError} from "express-validator
 import { blogsRepository } from "../repositories/blogs-repository";
 import { usersRepository } from "../repositories/users-repository";
 import { sendStatus } from "../routers/send-status";
-import { blogsType } from '../index';
-import { error } from "node:console";
 
 
 export const authorizationValidation = header('authorization').custom((value) => {
@@ -68,8 +66,8 @@ blogId: body('blogID')
     }
 
 export const inputValidationErrors = (req: Request, res: Response, next: NextFunction) => {
-    const errorFormat = ({msg, type } : ValidationError) => {
-        return {message: msg, field: type, error}
+    const errorFormat = ({msg} : ValidationError ) => {
+        return {message: msg}
     }
     const errors = validationResult(req).formatWith(errorFormat)
     if (!errors.isEmpty()) {
