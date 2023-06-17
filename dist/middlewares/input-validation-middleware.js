@@ -63,16 +63,16 @@ exports.inputPostsValidation = {
 };
 const inputValidationErrors = (req, res, next) => {
     const errorFormat = (error) => {
-        return { message: error.msg, field: error.msg };
+        return { message: error.msg, field: error.type };
     };
     const errors = (0, express_validator_1.validationResult)(req).formatWith(errorFormat);
     if (!errors.isEmpty()) {
         if (errors.array().find((err) => err.message === 'UNAUTHORIZED_401')) {
             return res.sendStatus(send_status_1.sendStatus.UNAUTHORIZED_401);
         }
-        const errorMessages = errors.array({ onlyFirstError: true });
-        console.log(errorMessages);
-        res.status(send_status_1.sendStatus.BAD_REQUEST_400).json({ errorMessages });
+        const errorsMessages = errors.array({ onlyFirstError: true });
+        console.log(errorsMessages);
+        res.status(send_status_1.sendStatus.BAD_REQUEST_400).json({ errorMessages: errors.array });
         return;
     }
     else {

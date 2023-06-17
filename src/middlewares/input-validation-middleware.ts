@@ -69,17 +69,17 @@ blogId: body('blogID')
 export const inputValidationErrors = (req: Request, res: Response, next: NextFunction) => {
     
     const errorFormat = (error : ValidationError ) => {
-        return {message: error.msg, field: error.msg}
+        return {message: error.msg, field: error.type}
     }
     const errors = validationResult(req).formatWith(errorFormat)
     if (!errors.isEmpty()) {
         if (errors.array().find((err: { message: string }) => err.message === 'UNAUTHORIZED_401')) {
             return res.sendStatus(sendStatus.UNAUTHORIZED_401);
         }
-        const errorMessages = errors.array({onlyFirstError: true})
-        console.log(errorMessages);
+        const errorsMessages = errors.array({onlyFirstError: true})
+        console.log(errorsMessages);
         
-        res.status(sendStatus.BAD_REQUEST_400).json({ errorMessages })
+        res.status(sendStatus.BAD_REQUEST_400).json({ errorMessages: errors.array})
         return 
     } else {
         next()
