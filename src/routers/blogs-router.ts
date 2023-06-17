@@ -31,10 +31,10 @@ blogsRouter.post('/',
   
 blogsRouter.get('/:id', (req: Request, res: Response) => {
     const foundBlog = blogsRepository.findBlogById(req.params.id)
-    if (!foundBlog) {
-      res.sendStatus(sendStatus.NOT_FOUND_404)
-    } else {
+    if (foundBlog) {
       res.status(sendStatus.OK_200).send(foundBlog)
+    } else {
+      res.sendStatus(sendStatus.NOT_FOUND_404)
     }
   })
   
@@ -46,10 +46,10 @@ blogsRouter.put('/:id',
   inputValidationErrors,
 (req: Request, res: Response) => {
   const id = req.params.id
-  const name = req.params.name
-  const description = req.params.description
-  const websiteURL = req.params.websiteUrl
-  const updateBlog = blogsRepository.updateBlog(id, name, description, websiteURL)
+  const name = req.body.name  //body
+  const description = req.body.description
+  const websiteUrl = req.body.websiteUrl
+  const updateBlog = blogsRepository.updateBlog(id, name, description, websiteUrl)
     if (!updateBlog) {
       return res.sendStatus(sendStatus.NOT_FOUND_404)
     }
