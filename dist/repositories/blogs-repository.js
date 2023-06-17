@@ -12,7 +12,7 @@ exports.blogsRepository = {
     },
     createBlog(name, description, website) {
         const newBlog = {
-            id: (db_1.db.blogs.length + 1).toString(),
+            id: (+new Date).toString(),
             name: name,
             description: description,
             websiteUrl: website
