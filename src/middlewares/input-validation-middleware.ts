@@ -1,8 +1,9 @@
 import {NextFunction, Response, Request } from "express";
-import {header, body, validationResult, ValidationError} from "express-validator";
+import { header, body, validationResult, ValidationError, FieldValidationError, ValidationChain } from 'express-validator';
 import { blogsRepository } from "../repositories/blogs-repository";
 import { usersRepository } from "../repositories/users-repository";
 import { sendStatus } from "../routers/send-status";
+
 
 
 export const authorizationValidation = header('authorization').custom((value) => {
@@ -65,19 +66,20 @@ blogId: body('blogID')
         })
     }
 
-export const inputValidationErrors = (req: Request, res: Response, next: NextFunction) => {
-    const errorFormat = ({msg} : ValidationError ) => {
-        return {message: msg}
+export const inputValidationErrors = (validations: Array<ValidationChain>)=> async (req: Request, res: Response, next: NextFunction) => {
+    await Promise.all(validations.map(validation => validation.run(req)));
+    const errorFormat = ({msg, param} : ValidationError ) => {
+        return {message: msg, field: param}
     }
     const errors = validationResult(req).formatWith(errorFormat)
     if (!errors.isEmpty()) {
-        if (errors.array().find((err: { message: string; }) => err.message === 'UNAUTHORIZED_401')) {
+        if (errors.array().find((err: { message: string }) => err.message === 'UNAUTHORIZED_401')) {
             return res.sendStatus(sendStatus.UNAUTHORIZED_401);
         }
         const errorMessages = errors.array({onlyFirstError: true})
         console.log(errorMessages);
         
-        res.status(sendStatus.BAD_REQUEST_400).json({ errorMessages})
+        res.status(sendStatus.BAD_REQUEST_400).json({ errorMessages })
         return 
     } else {
         next()
