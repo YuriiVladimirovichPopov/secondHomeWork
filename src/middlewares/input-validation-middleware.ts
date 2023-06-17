@@ -77,9 +77,9 @@ export const inputValidationErrors = (req: Request, res: Response, next: NextFun
             return res.sendStatus(sendStatus.UNAUTHORIZED_401);
         }
         const errorsMessages = errors.array({onlyFirstError: true})
-        console.log(errorsMessages);
+        //console.log(errorsMessages);
         
-        res.status(sendStatus.BAD_REQUEST_400).json({ errorsMessages: errors.array})
+        res.status(sendStatus.BAD_REQUEST_400).json({ errorsMessages })
         return 
     } else {
         next()

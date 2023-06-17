@@ -71,8 +71,8 @@ const inputValidationErrors = (req, res, next) => {
             return res.sendStatus(send_status_1.sendStatus.UNAUTHORIZED_401);
         }
         const errorsMessages = errors.array({ onlyFirstError: true });
-        console.log(errorsMessages);
-        res.status(send_status_1.sendStatus.BAD_REQUEST_400).json({ errorsMessages: errors.array });
+        //console.log(errorsMessages);
+        res.status(send_status_1.sendStatus.BAD_REQUEST_400).json({ errorsMessages });
         return;
     }
     else {
