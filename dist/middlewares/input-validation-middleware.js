@@ -27,7 +27,7 @@ exports.inputBlogsValidation = {
         .withMessage('Length must be from 1 to 500 simbols'),
     websiteURL: (0, express_validator_1.body)('websiteUrl')
         .isURL({})
-        .withMessage('Must be a URL')
+        .withMessage('Must be a Url')
 };
 exports.inputPostsValidation = {
     title: (0, express_validator_1.body)('title')

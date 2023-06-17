@@ -29,7 +29,7 @@ export const inputBlogsValidation = {
         .withMessage('Length must be from 1 to 500 simbols'),
     websiteURL: body('websiteUrl')
         .isURL({})
-        .withMessage('Must be a URL')
+        .withMessage('Must be a Url')
 
 }
 export const inputPostsValidation = {
