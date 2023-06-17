@@ -8,7 +8,8 @@ import { db } from "../db/db";
 export const blogsRouter = Router({})
 
 blogsRouter.get('/', (req: Request, res: Response) => {
-    console.log(req.params);
+    console.log(db.blogs);
+    
     res.status(sendStatus.OK_200).send(db.blogs)
   })
   
@@ -23,7 +24,9 @@ blogsRouter.post('/',
   const description = req.body.description
   const websiteUrl = req.body.websiteUrl
   const newBlog = blogsRepository.createBlog(name, description, websiteUrl)
-  res.sendStatus(sendStatus.CREATED_201).send(newBlog)
+  console.log(newBlog);
+  
+  res.status(sendStatus.CREATED_201).send(newBlog)
 })
   
 blogsRouter.get('/:id', (req: Request, res: Response) => {

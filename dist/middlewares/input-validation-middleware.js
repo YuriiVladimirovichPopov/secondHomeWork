@@ -25,8 +25,8 @@ exports.inputBlogsValidation = {
         .withMessage('Must be string')
         .isLength({ min: 1, max: 500 })
         .withMessage('Length must be from 1 to 500 simbols'),
-    websiteURL: (0, express_validator_1.body)('websiteURL')
-        .isURL()
+    websiteURL: (0, express_validator_1.body)('websiteUrl')
+        .isURL({})
         .withMessage('Must be a URL')
 };
 exports.inputPostsValidation = {
@@ -70,7 +70,9 @@ const inputValidationErrors = (req, res, next) => {
         if (errors.array().find((err) => err.message === 'UNAUTHORIZED_401')) {
             return res.sendStatus(send_status_1.sendStatus.UNAUTHORIZED_401);
         }
-        res.status(send_status_1.sendStatus.BAD_REQUEST_400).json({ errorMessages: errors.array() });
+        const errorMessages = errors.array({ onlyFirstError: true });
+        console.log(errorMessages);
+        res.status(send_status_1.sendStatus.BAD_REQUEST_400).json({ errorMessages });
         return;
     }
     else {
