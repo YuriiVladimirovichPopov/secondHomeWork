@@ -72,8 +72,8 @@ exports.inputPostsValidation = {
 };
 const inputValidationErrors = (validations) => (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     yield Promise.all(validations.map(validation => validation.run(req)));
-    const errorFormat = ({ msg, param }) => {
-        return { message: msg, field: param };
+    const errorFormat = ({ msg }) => {
+        return { message: msg };
     };
     const errors = (0, express_validator_1.validationResult)(req).formatWith(errorFormat);
     if (!errors.isEmpty()) {

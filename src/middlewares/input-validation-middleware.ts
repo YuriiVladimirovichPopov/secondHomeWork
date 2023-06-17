@@ -1,6 +1,6 @@
 import {NextFunction, Response, Request } from "express";
 import { header, body, validationResult, ValidationError, FieldValidationError, ValidationChain } from 'express-validator';
-import { blogsRepository } from "../repositories/blogs-repository";
+import { blogsRepository, blogsType } from '../repositories/blogs-repository';
 import { usersRepository } from "../repositories/users-repository";
 import { sendStatus } from "../routers/send-status";
 
@@ -68,8 +68,8 @@ blogId: body('blogID')
 
 export const inputValidationErrors = (validations: Array<ValidationChain>)=> async (req: Request, res: Response, next: NextFunction) => {
     await Promise.all(validations.map(validation => validation.run(req)));
-    const errorFormat = ({msg, param} : ValidationError ) => {
-        return {message: msg, field: param}
+    const errorFormat = ({msg} : ValidationError ) => {
+        return {message: msg}
     }
     const errors = validationResult(req).formatWith(errorFormat)
     if (!errors.isEmpty()) {
