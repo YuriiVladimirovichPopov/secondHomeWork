@@ -15,18 +15,24 @@ postsRouter.post('/',
   authorizationValidation,
   ...CreatePostValidation,
 (req: Request, res: Response) => {
-  const title = req.body.title;
-  const shortDescription = req.body.shortDescription;
-  const content = req.body.content
-  const blogId = req.body.blogId
-  const newPost = postsRepository.createPost(title, shortDescription, content, blogId)
-    res.status(sendStatus.CREATED_201).send(newPost)
-
+  const findBlogById = db.blogs.find(blog => blog.id === req.params.blogId)
+  const newPost = postsRepository.createPost(req.body.title, req.body.shortDescription, req.body.content, req.body.blogId)
+  if (findBlogById) {
+/*
+    title: req.body.title,
+    shortDescription: req.body.shortDescription,
+    content: req.body.content
+    blogId: req.body.blogId
+  */
+    return res.status(sendStatus.CREATED_201).send(newPost)
+  } else {
+    return res.status(sendStatus.BAD_REQUEST_400 )
+  }
 
 })
   
 postsRouter.get('/:id', (req: Request, res: Response) => {
-    const foundPost = postsRepository.findPostById(req.body.id)
+    const foundPost = postsRepository.findPostById(req.body.id)    //req.params.id
     if (!foundPost) {
       res.sendStatus(sendStatus.NOT_FOUND_404)
     } else {
@@ -38,16 +44,25 @@ postsRouter.put('/:id',
 authorizationValidation,
 ...UpdatePostValidation,
 (req: Request, res: Response) => {
+  const updatePost = postsRepository.updatePost(
+    req.params.id, 
+    req.body.title,
+    req.body.shortDescription, 
+    req.body.content, 
+    req.body.blogId)
+/*
   const id = req.params.id;
   const title = req.body.title;
   const shortDescription = req.body.shortDescription;
   const content = req.body.content
   const blogId = req.body.blogId
   const updatePost = postsRepository.updatePost(id, title, shortDescription, content, blogId)
+*/
     if (!updatePost) {
       return res.sendStatus(sendStatus.NOT_FOUND_404)
+    } else {
+    res.sendStatus(sendStatus.NO_CONTENT_204).json(updatePost)
     }
-    res.sendStatus(sendStatus.NO_CONTENT_204)
 })
   
 postsRouter.delete('/:id', 
