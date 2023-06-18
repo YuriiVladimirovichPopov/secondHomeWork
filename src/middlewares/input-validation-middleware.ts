@@ -62,7 +62,7 @@ content: body('content')
     .isLength({min: 1, max: 1000})
     .withMessage('Length must be from 1 to 1000 simbols')
     .bail(),
-blogId: body('blogID')
+blogId: body('blogId')
     .trim()
     .isString()
     .withMessage('Must be string')

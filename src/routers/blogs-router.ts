@@ -37,7 +37,7 @@ blogsRouter.get('/:id', (req: Request, res: Response) => {
   
 blogsRouter.put('/:id',
   authorizationValidation,
-  UpdateBlogValidation,
+  ...UpdateBlogValidation,
 (req: Request, res: Response) => {
   const id = req.params.id
   const name = req.body.name  //body

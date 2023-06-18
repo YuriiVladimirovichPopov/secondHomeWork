@@ -13,7 +13,7 @@ postsRouter.get('/', (_req: Request, res: Response) => {
   
 postsRouter.post('/', 
   authorizationValidation,
-  CreatePostValidation,
+  ...CreatePostValidation,
 (req: Request, res: Response) => {
   const title = req.body.title;
   const shortDescription = req.body.shortDescription;
@@ -36,7 +36,7 @@ postsRouter.get('/:id', (req: Request, res: Response) => {
   
 postsRouter.put('/:id', 
 authorizationValidation,
-UpdatePostValidation,
+...UpdatePostValidation,
 (req: Request, res: Response) => {
   const id = req.params.id;
   const title = req.body.title;
