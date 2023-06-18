@@ -69,7 +69,7 @@ blogId: body('blogID')
 export const inputValidationErrors = (req: Request, res: Response, next: NextFunction) => {
     
     const errorFormat = ({msg} : ValidationError ) => {       //{msg, param}
-        return {message: msg, field: body }    //message: error.msg, field: param
+        return {message: msg, field: body() }    //message: error.msg, field: param
     }
     const errors = validationResult(req).formatWith(errorFormat)
     if (!errors.isEmpty()) {
