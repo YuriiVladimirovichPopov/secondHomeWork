@@ -2,9 +2,9 @@ import {Request, Response, Router } from "express";
 import {postsRepository} from "../repositories/posts-repository";
 import {sendStatus} from "./send-status";
 import { authorizationValidation, 
-          inputPostsValidation,
           inputValidationErrors} from "../middlewares/input-validation-middleware";
 import { db } from "../db/db";
+import { CreatePostValidation, UpdatePostValidation } from "../middlewares/validations/posts.validation";
 export const postsRouter = Router({})
 
 postsRouter.get('/', (_req: Request, res: Response) => {
@@ -13,11 +13,7 @@ postsRouter.get('/', (_req: Request, res: Response) => {
   
 postsRouter.post('/', 
   authorizationValidation,
-  inputPostsValidation.title,
-  inputPostsValidation.shortDescription,
-  inputPostsValidation.content,
-  inputPostsValidation.blogId,
-  inputValidationErrors,
+  CreatePostValidation,
 (req: Request, res: Response) => {
   const title = req.body.title;
   const shortDescription = req.body.shortDescription;
@@ -40,11 +36,7 @@ postsRouter.get('/:id', (req: Request, res: Response) => {
   
 postsRouter.put('/:id', 
 authorizationValidation,
-inputPostsValidation.title,
-inputPostsValidation.shortDescription,
-inputPostsValidation.content,
-inputPostsValidation.blogId,
-inputValidationErrors,
+UpdatePostValidation,
 (req: Request, res: Response) => {
   const id = req.params.id;
   const title = req.body.title;

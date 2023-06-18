@@ -1,7 +1,6 @@
 import {NextFunction, Response, Request } from "express";
-import { header, body, validationResult, ValidationError, param } from 'express-validator';
+import { body, validationResult } from 'express-validator';
 import { blogsRepository} from '../repositories/blogs-repository';
-import { usersRepository } from "../repositories/users-repository";
 import { sendStatus } from "../routers/send-status";
 
 

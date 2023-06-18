@@ -2,10 +2,9 @@ import {Request, Response, Router } from "express";
 import { blogsRepository, } from '../repositories/blogs-repository';
 import { sendStatus } from "./send-status";
 import { authorizationValidation,
-          inputBlogsValidation,
           inputValidationErrors } from "../middlewares/input-validation-middleware";
 import { db } from "../db/db";
-import { CreateBlogValidation } from "../middlewares/validations/blogs.validation";
+import { CreateBlogValidation, UpdateBlogValidation } from "../middlewares/validations/blogs.validation";
 export const blogsRouter = Router({})
 
 blogsRouter.get('/', (req: Request, res: Response) => {
@@ -38,10 +37,7 @@ blogsRouter.get('/:id', (req: Request, res: Response) => {
   
 blogsRouter.put('/:id',
   authorizationValidation,
-  inputBlogsValidation.name,
-  inputBlogsValidation.description,
-  inputBlogsValidation.websiteURL,
-  inputValidationErrors,
+  UpdateBlogValidation,
 (req: Request, res: Response) => {
   const id = req.params.id
   const name = req.body.name  //body
