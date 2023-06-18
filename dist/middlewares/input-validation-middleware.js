@@ -83,7 +83,7 @@ const inputValidationErrors = (req, res, next) => {
     if (!errors.isEmpty()) {
         const errorsArray = errors.array({ onlyFirstError: true });
         const errorsMessages = errorsArray.map((e) => ({ message: e.msg, field: e.path }));
-        res.status(send_status_1.sendStatus.BAD_REQUEST_400).json({ errorsMessages });
+        res.status(send_status_1.sendStatus.BAD_REQUEST_400).json({ errorsMessages: errorsArray });
         return;
     }
     else {
