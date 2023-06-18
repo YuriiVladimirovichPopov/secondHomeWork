@@ -32,8 +32,6 @@ const blogIdValidation =  body('blogId')
                                         .withMessage('Must be string')
                                         .trim()
                                         .isEmpty()
-                                        .isLength({min: 1, max: 100})
-                                        .withMessage('Length must be from 1 to 100 simbols')
                                         .custom((value: any) => {
                                             if (!blogsRepository.findBlogById(value)) {
                                                 throw new Error('Blog is not found');
