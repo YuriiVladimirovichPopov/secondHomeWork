@@ -24,7 +24,7 @@ type postsType = {
         createPost(title: string, shortDescription: string, content: string, blogId: string) {
             const postById = blogsRepository.findBlogById(blogId)
             const newPost: postsType = {
-                id: (+(new Date())).toString(),             //db.posts.length +1
+                id: (db.posts.length +1).toString(),             //db.posts.length +1    //+(new Date())
                 title: title,
                 shortDescription: shortDescription,
                 content: content,

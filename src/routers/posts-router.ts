@@ -10,14 +10,24 @@ export const postsRouter = Router({})
 postsRouter.get('/', (_req: Request, res: Response) => {
     res.status(sendStatus.OK_200).send(db.posts)
   })
+
+postsRouter.get('/:id', (req: Request, res: Response) => {
+  const foundPost = postsRepository.findPostById(req.body.id)    //req.params.id
+    if (!foundPost) {
+      res.sendStatus(sendStatus.NOT_FOUND_404)
+    } else {
+       res.status(sendStatus.OK_200).send(foundPost)
+  }
+  })
   
 postsRouter.post('/', 
   authorizationValidation,
   ...CreatePostValidation,
 (req: Request, res: Response) => {
   const findBlogById = db.blogs.find(blog => blog.id === req.params.blogId)
-  const newPost = postsRepository.createPost(req.body.title, req.body.shortDescription, req.body.content, req.body.blogId)
   if (findBlogById) {
+  const newPost = postsRepository.createPost(req.body.title, req.body.shortDescription, req.body.content, req.body.blogId)
+  
 /*
     title: req.body.title,
     shortDescription: req.body.shortDescription,
@@ -31,15 +41,7 @@ postsRouter.post('/',
 
 })
   
-postsRouter.get('/:id', (req: Request, res: Response) => {
-    const foundPost = postsRepository.findPostById(req.body.id)    //req.params.id
-    if (!foundPost) {
-      res.sendStatus(sendStatus.NOT_FOUND_404)
-    } else {
-       res.status(sendStatus.OK_200).send(foundPost)
-  }
-  })
-  
+
 postsRouter.put('/:id', 
 authorizationValidation,
 ...UpdatePostValidation,
