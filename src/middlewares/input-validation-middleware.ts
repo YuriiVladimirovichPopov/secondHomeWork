@@ -85,7 +85,7 @@ export const inputValidationErrors = (req: Request, res: Response, next: NextFun
         const errorsArray = errors.array({onlyFirstError: true})   
         const errorsMessages = errorsArray.map((e: any )=> ({message: e.msg, field: e.path}))
         
-        res.status(sendStatus.BAD_REQUEST_400).json({ errorsMessages: errorsArray })
+        res.status(sendStatus.BAD_REQUEST_400).json({ errorsMessages: errors.array })
         return 
     } else {
         next()
