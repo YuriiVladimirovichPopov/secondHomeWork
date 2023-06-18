@@ -1,5 +1,5 @@
 import {NextFunction, Response, Request } from "express";
-import { header, body, validationResult, ValidationError, param} from 'express-validator';
+import { header, body, validationResult, ValidationError} from 'express-validator';
 import { blogsRepository} from '../repositories/blogs-repository';
 import { usersRepository } from "../repositories/users-repository";
 import { sendStatus } from "../routers/send-status";
@@ -68,8 +68,8 @@ blogId: body('blogID')
 
 export const inputValidationErrors = (req: Request, res: Response, next: NextFunction) => {
     
-    const errorFormat = ({msg, type} : ValidationError ) => {       //{msg, param}
-        return {message: msg, field: type}    //message: error.msg, field: param
+    const errorFormat = ({msg} : ValidationError ) => {       //{msg, param}
+        return {message: msg, field: body }    //message: error.msg, field: param
     }
     const errors = validationResult(req).formatWith(errorFormat)
     if (!errors.isEmpty()) {
