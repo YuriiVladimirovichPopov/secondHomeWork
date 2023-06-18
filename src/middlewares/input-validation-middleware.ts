@@ -20,17 +20,22 @@ export const inputBlogsValidation = {
         .trim()
         .isString()
         .withMessage('Must be string')
+        .bail()
         .isLength({min: 1, max: 15})
-        .withMessage('Length must be from 1 to 15 simbols'),
+        .withMessage('Length must be from 1 to 15 simbols')
+        .bail(),
     description: body('description')
         .trim()
         .isString()
         .withMessage('Must be string')
+        .bail()
         .isLength({min: 1, max: 500})
-        .withMessage('Length must be from 1 to 500 simbols'),
+        .withMessage('Length must be from 1 to 500 simbols')
+        .bail(),
     websiteURL: body('websiteUrl')
         .isURL({})
         .withMessage('Must be a Url')
+        .bail()
 
 }
 export const inputPostsValidation = {
@@ -38,26 +43,34 @@ export const inputPostsValidation = {
     .trim()
     .isString()
     .withMessage('Must be string')
+    .bail()
     .isLength({min: 1, max: 30})
-    .withMessage('Length must be from 1 to 30 simbols'),
+    .withMessage('Length must be from 1 to 30 simbols')
+    .bail(),
 shortDescription: body('shortDescription')
     .trim()
     .isString()
     .withMessage('Must be string')
+    .bail()
     .isLength({min: 1, max: 100})
-    .withMessage('Length must be from 1 to 100 simbols'),
+    .withMessage('Length must be from 1 to 100 simbols')
+    .bail(),
 content: body('content')
     .trim()
     .isString()
     .withMessage('Must be string')
+    .bail()
     .isLength({min: 1, max: 1000})
-    .withMessage('Length must be from 1 to 1000 simbols'),
+    .withMessage('Length must be from 1 to 1000 simbols')
+    .bail(),
 blogId: body('blogID')
     .trim()
     .isString()
     .withMessage('Must be string')
+    .bail()
     .isLength({min: 1, max: 100})
     .withMessage('Length must be from 1 to 100 simbols')
+    .bail()
     .custom((value: any) => {
         if (!blogsRepository.findBlogById(value)) {
             throw new Error('Blog is not found');
@@ -76,8 +89,8 @@ export const inputValidationErrors = (req: Request, res: Response, next: NextFun
         if (errors.array().find((err: { message: string }) => err.message === 'UNAUTHORIZED_401')) {
             return res.sendStatus(sendStatus.UNAUTHORIZED_401);
         }
-        const errorsMessages = errors.array({onlyFirstError: true})
-        //console.log(errorsMessages);
+        const errorsMessages = errors.array()       //{onlyFirstError: true}
+        console.log(errorsMessages);
         
         res.status(sendStatus.BAD_REQUEST_400).json({ errorsMessages })
         return 

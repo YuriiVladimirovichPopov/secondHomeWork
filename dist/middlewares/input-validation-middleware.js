@@ -17,43 +17,56 @@ exports.inputBlogsValidation = {
         .trim()
         .isString()
         .withMessage('Must be string')
+        .bail()
         .isLength({ min: 1, max: 15 })
-        .withMessage('Length must be from 1 to 15 simbols'),
+        .withMessage('Length must be from 1 to 15 simbols')
+        .bail(),
     description: (0, express_validator_1.body)('description')
         .trim()
         .isString()
         .withMessage('Must be string')
+        .bail()
         .isLength({ min: 1, max: 500 })
-        .withMessage('Length must be from 1 to 500 simbols'),
+        .withMessage('Length must be from 1 to 500 simbols')
+        .bail(),
     websiteURL: (0, express_validator_1.body)('websiteUrl')
         .isURL({})
         .withMessage('Must be a Url')
+        .bail()
 };
 exports.inputPostsValidation = {
     title: (0, express_validator_1.body)('title')
         .trim()
         .isString()
         .withMessage('Must be string')
+        .bail()
         .isLength({ min: 1, max: 30 })
-        .withMessage('Length must be from 1 to 30 simbols'),
+        .withMessage('Length must be from 1 to 30 simbols')
+        .bail(),
     shortDescription: (0, express_validator_1.body)('shortDescription')
         .trim()
         .isString()
         .withMessage('Must be string')
+        .bail()
         .isLength({ min: 1, max: 100 })
-        .withMessage('Length must be from 1 to 100 simbols'),
+        .withMessage('Length must be from 1 to 100 simbols')
+        .bail(),
     content: (0, express_validator_1.body)('content')
         .trim()
         .isString()
         .withMessage('Must be string')
+        .bail()
         .isLength({ min: 1, max: 1000 })
-        .withMessage('Length must be from 1 to 1000 simbols'),
+        .withMessage('Length must be from 1 to 1000 simbols')
+        .bail(),
     blogId: (0, express_validator_1.body)('blogID')
         .trim()
         .isString()
         .withMessage('Must be string')
+        .bail()
         .isLength({ min: 1, max: 100 })
         .withMessage('Length must be from 1 to 100 simbols')
+        .bail()
         .custom((value) => {
         if (!blogs_repository_1.blogsRepository.findBlogById(value)) {
             throw new Error('Blog is not found');
@@ -70,8 +83,8 @@ const inputValidationErrors = (req, res, next) => {
         if (errors.array().find((err) => err.message === 'UNAUTHORIZED_401')) {
             return res.sendStatus(send_status_1.sendStatus.UNAUTHORIZED_401);
         }
-        const errorsMessages = errors.array({ onlyFirstError: true });
-        //console.log(errorsMessages);
+        const errorsMessages = errors.array(); //{onlyFirstError: true}
+        console.log(errorsMessages);
         res.status(send_status_1.sendStatus.BAD_REQUEST_400).json({ errorsMessages });
         return;
     }
