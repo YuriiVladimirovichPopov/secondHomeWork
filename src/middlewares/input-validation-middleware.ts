@@ -13,7 +13,7 @@ export const authorizationValidation = (req: Request, res: Response, next: NextF
     return next()
 
 }
-
+/*
 export const inputBlogsValidation = {
     name: body('name')
         .trim()
@@ -77,7 +77,7 @@ blogId: body('blogId')
         return true;
         })
     }
-
+*/
 export const inputValidationErrors = (req: Request, res: Response, next: NextFunction) => {
     
     const errors = validationResult(req)
