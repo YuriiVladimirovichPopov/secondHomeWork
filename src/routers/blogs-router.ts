@@ -7,13 +7,13 @@ import { db } from "../db/db";
 import { CreateBlogValidation, UpdateBlogValidation } from "../middlewares/validations/blogs.validation";
 export const blogsRouter = Router({})
 
-blogsRouter.get('/', (req: Request, res: Response) => {
+blogsRouter.get('/blogs', (req: Request, res: Response) => {
     console.log(db.blogs);
     
     res.status(sendStatus.OK_200).send(db.blogs)
   })
   
-blogsRouter.post('/',
+blogsRouter.post('/blogs',
   authorizationValidation,
   ...CreateBlogValidation,
 (req: Request, res: Response) => {
@@ -26,7 +26,7 @@ blogsRouter.post('/',
   res.status(sendStatus.CREATED_201).send(newBlog)
 })
   
-blogsRouter.get('/:id', (req: Request, res: Response) => {
+blogsRouter.get('/blogs/:id', (req: Request, res: Response) => {
     const foundBlog = blogsRepository.findBlogById(req.params.id)
     if (foundBlog) {
       res.status(sendStatus.OK_200).send(foundBlog)
@@ -35,7 +35,7 @@ blogsRouter.get('/:id', (req: Request, res: Response) => {
     }
   })
   
-blogsRouter.put('/:id',
+blogsRouter.put('/blogs/:id',
   authorizationValidation,
   ...UpdateBlogValidation,
 (req: Request, res: Response) => {
@@ -50,7 +50,7 @@ blogsRouter.put('/:id',
     res.sendStatus(sendStatus.NO_CONTENT_204)
 })
   
-blogsRouter.delete('/:id', 
+blogsRouter.delete('blogs/:id', 
   authorizationValidation,
   inputValidationErrors, 
 (req: Request, res: Response) => {

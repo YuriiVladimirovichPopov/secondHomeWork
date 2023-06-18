@@ -21,18 +21,18 @@ type postsType = {
     findAllPosts(): postsArrayType {
         return db.posts
     },
-        createPost(title: string, shortDescription: string, content: string, blogId: string) {
-            const postById = blogsRepository.findBlogById(blogId)
-            const newPost: postsType = {
-                id: (db.posts.length +1).toString(),             //db.posts.length +1    //+(new Date())
-                title: title,
-                shortDescription: shortDescription,
-                content: content,
-                blogId: postById!.id,
-                blogName: postById!.name
-            }
-            db.posts.push(newPost)
-            return newPost
+    createPost(title: string, shortDescription: string, content: string, blogId: string) {
+        const postById = blogsRepository.findBlogById(blogId)
+        const newPost: postsType = {
+            id: (db.posts.length +1).toString(),             //db.posts.length +1    //+(new Date())
+            title: title,
+            shortDescription: shortDescription,
+            content: content,
+            blogId: postById!.id,
+            blogName: postById!.name
+        }
+        db.posts.push(newPost)
+            return db.posts
     },
     updatePost(id: string, title: string, shortDescription: string, content: string, blogId: string) {
         const foundPostById = db.posts.find(post => post.id === id);
