@@ -3,15 +3,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.inputValidationErrors = exports.inputPostsValidation = exports.inputBlogsValidation = exports.authorizationValidation = void 0;
 const express_validator_1 = require("express-validator");
 const blogs_repository_1 = require("../repositories/blogs-repository");
-const users_repository_1 = require("../repositories/users-repository");
 const send_status_1 = require("../routers/send-status");
-exports.authorizationValidation = (0, express_validator_1.header)('authorization').custom((value) => {
-    const user = users_repository_1.usersRepository.find(user => user.loginPassword === value);
-    if (!user) {
-        throw new Error('UNAUTHORIZED_401');
-    }
-    return true;
-});
+const authorizationValidation = (req, res, next) => {
+    const auth = req.headers.authorization;
+    if (!auth)
+        return res.sendStatus(401);
+    const [authType, authData] = auth.split(' ');
+    if (authType !== 'Basic' || authData !== 'YWRtaW46cXdlcnR5')
+        return res.sendStatus(401);
+    return next();
+};
+exports.authorizationValidation = authorizationValidation;
 exports.inputBlogsValidation = {
     name: (0, express_validator_1.body)('name')
         .trim()
@@ -75,16 +77,10 @@ exports.inputPostsValidation = {
     })
 };
 const inputValidationErrors = (req, res, next) => {
-    const errorFormat = ({ msg }) => {
-        return { message: msg, field: (0, express_validator_1.body)() }; //message: error.msg, field: param
-    };
-    const errors = (0, express_validator_1.validationResult)(req).formatWith(errorFormat);
+    const errors = (0, express_validator_1.validationResult)(req);
     if (!errors.isEmpty()) {
-        if (errors.array().find((err) => err.message === 'UNAUTHORIZED_401')) {
-            return res.sendStatus(send_status_1.sendStatus.UNAUTHORIZED_401);
-        }
-        const errorsMessages = errors.array(); //{onlyFirstError: true}
-        console.log(errorsMessages);
+        const errorsArray = errors.array({ onlyFirstError: true });
+        const errorsMessages = errorsArray.map((e) => ({ message: e.msg, field: e.path }));
         res.status(send_status_1.sendStatus.BAD_REQUEST_400).json({ errorsMessages });
         return;
     }

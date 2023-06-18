@@ -5,6 +5,7 @@ import { authorizationValidation,
           inputBlogsValidation,
           inputValidationErrors } from "../middlewares/input-validation-middleware";
 import { db } from "../db/db";
+import { CreateBlogValidation } from "../middlewares/validations/blogs.validation";
 export const blogsRouter = Router({})
 
 blogsRouter.get('/', (req: Request, res: Response) => {
@@ -15,10 +16,7 @@ blogsRouter.get('/', (req: Request, res: Response) => {
   
 blogsRouter.post('/',
   authorizationValidation,
-  inputBlogsValidation.name,
-  inputBlogsValidation.description,
-  inputBlogsValidation.websiteURL,
-  inputValidationErrors, 
+  ...CreateBlogValidation,
 (req: Request, res: Response) => {
   const name = req.body.name
   const description = req.body.description

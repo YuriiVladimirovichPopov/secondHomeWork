@@ -1,19 +1,19 @@
 import {NextFunction, Response, Request } from "express";
-import { header, body, validationResult, ValidationError} from 'express-validator';
+import { header, body, validationResult, ValidationError, param } from 'express-validator';
 import { blogsRepository} from '../repositories/blogs-repository';
 import { usersRepository } from "../repositories/users-repository";
 import { sendStatus } from "../routers/send-status";
 
 
 
-export const authorizationValidation = header('authorization').custom((value) => {
-    const user = usersRepository.find(user => user.loginPassword === value)
-    
-    if (!user) {
-        throw new Error('UNAUTHORIZED_401');
-    }
-    return true
-})
+export const authorizationValidation = (req: Request, res: Response, next: NextFunction) => {
+    const auth = req.headers.authorization
+    if(!auth) return res.sendStatus(401)
+    const [authType, authData] = auth.split(' ')
+    if (authType !== 'Basic' || authData !=='YWRtaW46cXdlcnR5') return res.sendStatus(401)
+    return next()
+
+}
 
 export const inputBlogsValidation = {
     name: body('name')
@@ -81,16 +81,10 @@ blogId: body('blogID')
 
 export const inputValidationErrors = (req: Request, res: Response, next: NextFunction) => {
     
-    const errorFormat = ({msg} : ValidationError ) => {       //{msg, param}
-        return {message: msg, field: body() }    //message: error.msg, field: param
-    }
-    const errors = validationResult(req).formatWith(errorFormat)
+    const errors = validationResult(req)
     if (!errors.isEmpty()) {
-        if (errors.array().find((err: { message: string }) => err.message === 'UNAUTHORIZED_401')) {
-            return res.sendStatus(sendStatus.UNAUTHORIZED_401);
-        }
-        const errorsMessages = errors.array()       //{onlyFirstError: true}
-        console.log(errorsMessages);
+        const errorsArray = errors.array({onlyFirstError: true})   
+        const errorsMessages = errorsArray.map((e: any )=> ({message: e.msg, field: e.path}))
         
         res.status(sendStatus.BAD_REQUEST_400).json({ errorsMessages })
         return 
