@@ -7,11 +7,11 @@ import { db } from "../db/db";
 import { CreatePostValidation, UpdatePostValidation } from "../middlewares/validations/posts.validation";
 export const postsRouter = Router({})
 
-postsRouter.get('/posts', (_req: Request, res: Response) => {
+postsRouter.get('/', (_req: Request, res: Response) => {
     res.status(sendStatus.OK_200).send(db.posts)
   })
 
-postsRouter.get('/posts/:id', (req: Request, res: Response) => {
+postsRouter.get('/:id', (req: Request, res: Response) => {
   const foundPost = postsRepository.findPostById(req.body.id)    //req.params.id
     if (!foundPost) {
       res.sendStatus(sendStatus.NOT_FOUND_404)
@@ -20,7 +20,7 @@ postsRouter.get('/posts/:id', (req: Request, res: Response) => {
   }
   })
   
-postsRouter.post('/posts', 
+postsRouter.post('/', 
   authorizationValidation,
   ...CreatePostValidation,
 (req: Request, res: Response) => {
@@ -42,7 +42,7 @@ postsRouter.post('/posts',
 })
   
 
-postsRouter.put('/posts/:id', 
+postsRouter.put('/:id', 
 authorizationValidation,
 ...UpdatePostValidation,
 (req: Request, res: Response) => {
@@ -67,7 +67,7 @@ authorizationValidation,
     }
 })
   
-postsRouter.delete('/post/:id', 
+postsRouter.delete('/:id', 
 authorizationValidation,
 inputValidationErrors,
 (req: Request, res: Response) => {

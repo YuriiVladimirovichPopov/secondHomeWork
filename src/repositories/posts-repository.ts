@@ -32,7 +32,7 @@ type postsType = {
             blogName: postById!.name
         }
         db.posts.push(newPost)
-            return db.posts
+            return newPost
     },
     updatePost(id: string, title: string, shortDescription: string, content: string, blogId: string) {
         const foundPostById = db.posts.find(post => post.id === id);
