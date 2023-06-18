@@ -26,11 +26,11 @@ postsRouter.post('/',
 })
   
 postsRouter.get('/:id', (req: Request, res: Response) => {
-    const foundPost = postsRepository.findPostById(req.params.id)
-    if (foundPost) {
-      res.status(sendStatus.OK_200).send(foundPost)
-    } else {
+    const foundPost = postsRepository.findPostById(req.body.id)
+    if (!foundPost) {
       res.sendStatus(sendStatus.NOT_FOUND_404)
+    } else {
+       res.status(sendStatus.OK_200).send(foundPost)
   }
   })
   
