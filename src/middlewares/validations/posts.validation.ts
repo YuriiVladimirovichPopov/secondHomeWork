@@ -1,5 +1,6 @@
 import { body } from "express-validator"
 import { inputValidationErrors } from "../input-validation-middleware"
+import { blogsRepository } from "../../repositories/blogs-repository"
 
 
 
@@ -33,6 +34,12 @@ const blogIdValidation =  body('blogId')
                                         .isEmpty()
                                         .isLength({min: 1, max: 100})
                                         .withMessage('Length must be from 1 to 100 simbols')
+                                        .custom((value: any) => {
+                                            if (!blogsRepository.findBlogById(value)) {
+                                                throw new Error('Blog is not found');
+                                            }
+                                            return true;
+                                            })
 
 export const CreatePostValidation = 
     [titleValidation, shortDescriptionValidation, contentValidation, blogIdValidation, inputValidationErrors]
