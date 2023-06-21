@@ -4,7 +4,7 @@ import {sendStatus} from "./send-status";
 import { authorizationValidation, 
           inputValidationErrors} from "../middlewares/input-validation-middleware";
 import { db } from "../db/db";
-import { CreatePostValidation, UpdatePostValidation } from "../middlewares/validations/posts.validation";
+import { createPostValidation, updatePostValidation } from '../middlewares/validations/posts.validation';
 export const postsRouter = Router({})
 
 postsRouter.get('/', (_req: Request, res: Response) => {
@@ -22,7 +22,7 @@ postsRouter.get('/:id', (req: Request, res: Response) => {
   
 postsRouter.post('/', 
   authorizationValidation,
-  ...CreatePostValidation,
+  createPostValidation,
 (req: Request, res: Response) => {
   const findBlogById = db.blogs.find(blog => blog.id === req.params.blogId)
   if (findBlogById) {
@@ -44,7 +44,7 @@ postsRouter.post('/',
 
 postsRouter.put('/:id', 
 authorizationValidation,
-...UpdatePostValidation,
+updatePostValidation,
 (req: Request, res: Response) => {
   const updatePost = postsRepository.updatePost(
     req.params.id, 

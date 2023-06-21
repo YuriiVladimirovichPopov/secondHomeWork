@@ -32,14 +32,14 @@ const blogIdValidation =  body('blogId')
                                         .withMessage('Must be string')
                                         .trim()
                                         .isEmpty()
-                                        .custom((value: any) => {
+                                        .custom((value: string) => {
                                             if (!blogsRepository.findBlogById(value)) {
                                                 throw new Error('Blog is not found');
                                             }
                                             return true;
                                             })
 
-export const CreatePostValidation = 
+export const createPostValidation = 
     [titleValidation, shortDescriptionValidation, contentValidation, blogIdValidation, inputValidationErrors]
-export const UpdatePostValidation = 
+export const updatePostValidation = 
     [titleValidation, shortDescriptionValidation, contentValidation, blogIdValidation, inputValidationErrors]

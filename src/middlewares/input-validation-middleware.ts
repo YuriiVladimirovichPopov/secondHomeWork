@@ -18,41 +18,32 @@ export const inputBlogsValidation = {
         .trim()
         .isString()
         .withMessage('Must be string')
-        .bail()
         .isLength({min: 1, max: 15})
-        .withMessage('Length must be from 1 to 15 simbols')
-        .bail(),
+        .withMessage('Length must be from 1 to 15 simbols'),
     description: body('description')
         .trim()
         .isString()
         .withMessage('Must be string')
-        .bail()
         .isLength({min: 1, max: 500})
-        .withMessage('Length must be from 1 to 500 simbols')
-        .bail(),
+        .withMessage('Length must be from 1 to 500 simbols'),
     websiteURL: body('websiteUrl')
         .isURL({})
         .withMessage('Must be a Url')
-        .bail()
-
 }
+
 export const inputPostsValidation = {
     title: body('title')
     .trim()
     .isString()
     .withMessage('Must be string')
-    .bail()
     .isLength({min: 1, max: 30})
-    .withMessage('Length must be from 1 to 30 simbols')
-    .bail(),
+    .withMessage('Length must be from 1 to 30 simbols'),
 shortDescription: body('shortDescription')
     .trim()
     .isString()
     .withMessage('Must be string')
-    .bail()
     .isLength({min: 1, max: 100})
-    .withMessage('Length must be from 1 to 100 simbols')
-    .bail(),
+    .withMessage('Length must be from 1 to 100 simbols'),
 content: body('content')
     .trim()
     .isString()
@@ -65,10 +56,8 @@ blogId: body('blogId')
     .trim()
     .isString()
     .withMessage('Must be string')
-    .bail()
     .isLength({min: 1, max: 100})
     .withMessage('Length must be from 1 to 100 simbols')
-    .bail()
     .custom((value: any) => {
         if (!blogsRepository.findBlogById(value)) {
             throw new Error('Blog is not found');
