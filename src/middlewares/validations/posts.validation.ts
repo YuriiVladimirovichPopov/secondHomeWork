@@ -27,6 +27,7 @@ const contentValidation = body('content')
                                         //.isEmpty()
                                         .isLength({min: 1, max: 1000})
                                         .withMessage('Length must be from 1 to 1000 simbols')  
+                                        
 const blogIdValidation =  body('blogId')
                                         .isString()
                                         .withMessage('Must be string')

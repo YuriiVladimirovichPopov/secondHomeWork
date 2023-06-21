@@ -12,7 +12,7 @@ postsRouter.get('/', (_req: Request, res: Response) => {
   })
 
 postsRouter.get('/:id', (req: Request, res: Response) => {
-  const foundPost = postsRepository.findPostById(req.body.id)    //req.params.id
+  const foundPost = postsRepository.findPostById(req.params.id)    //req.params.id
     if (!foundPost) {
       res.sendStatus(sendStatus.NOT_FOUND_404)
     } else {
@@ -24,7 +24,7 @@ postsRouter.post('/',
   authorizationValidation,
   createPostValidation,
 (req: Request, res: Response) => {
-  const findBlogById = db.blogs.find(blog => blog.id === req.params.blogId)
+  const findBlogById = db.blogs.find(blog => blog.id === req.body.blogId)
   if (findBlogById) {
   const newPost = postsRepository.createPost(req.body.title, req.body.shortDescription, req.body.content, req.body.blogId)
   
@@ -36,7 +36,7 @@ postsRouter.post('/',
   */
     return res.status(sendStatus.CREATED_201).send(newPost)
   } else {
-    return res.status(sendStatus.BAD_REQUEST_400 )
+    return res.sendStatus(sendStatus.BAD_REQUEST_400 )
   }
 
 })
